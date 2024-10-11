@@ -1,0 +1,41 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+void generateParenthesesHelper(int n, int left, int right, std::string& current, std::vector<std::string>& result) {
+    if (left == n && right == n) {
+        result.push_back(current);
+        return;
+    }
+
+    if (left < n) {
+        current.push_back('(');
+        generateParenthesesHelper(n, left + 1, right, current, result);
+        current.pop_back();
+    }
+
+    if (right < left) {
+        current.push_back(')');
+        generateParenthesesHelper(n, left, right + 1, current, result);
+        current.pop_back();
+    }
+}
+
+std::vector<std::string> generateParentheses(int n) {
+    std::vector<std::string> result;
+    std::string current;
+    generateParenthesesHelper(n, 0, 0, current, result);
+    return result;
+}
+
+int main() {
+    int n = 3;
+    std::vector<std::string> combinations = generateParentheses(n);
+
+    std::cout << "All possible combinations of well-formed parentheses for n = " << n << ":\n";
+    for (const std::string& combination : combinations) {
+        std::cout << combination << std::endl;
+    }
+
+    return 0;
+}
